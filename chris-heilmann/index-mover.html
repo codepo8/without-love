@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Love - mover</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Faculty+Glyphic&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Faculty Glyphic", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        output {
+            position: relative;
+            font-size: 4vmin;
+            margin: 1em auto;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: .5em;
+            position: relative;
+        }
+        ul {
+            position: absolute;
+            top: -2000em;
+        }
+        #phrase {
+            anchor-name: --phrase;
+        }
+        #meaning {
+            position-anchor: --phrase;
+            position: fixed;
+            left: anchor(right);
+            top: anchor(top);
+            --meaningindex: 1;
+            margin-left: .5em;
+            height: 1.4em;
+            overflow: hidden;
+            transition: translate 0.3s ease;
+        }
+        #word {
+            height: 1.4em;
+            overflow: hidden;
+            --wordindex: 4;
+            position-anchor: --phrase;
+            position: fixed;
+            right: anchor(left);
+            top: anchor(top);
+            margin-right: .5em;
+            transition: translate 0.3s ease;
+        }
+        #word div {
+            translate: 0 calc(var(--wordindex) * -1.3em);
+            text-align: right;
+            transition: translate 0.3s ease;
+        }
+        #meaning div {
+            translate: 0 calc(var(--meaningindex)* -1.3em);
+            transition: translate 0.3s 0.2s ease;
+        }
+        output div span {
+            display: block;
+        }
+        #byline {
+            position: fixed;
+            bottom: 1em;
+            font-size: 2vmin;
+        }
+    </style>
+</head>
+<body>
+    <output>
+        <div id="word"><div></div></div>
+        <div id="phrase">- ❤️ =</div>
+        <div id="meaning"><div></div></div>
+    </output>
+<ul>
+    <li><span>Duty</span> without love is <span>irritation</span></li>
+    <li><span>Responsibility</span> without love is <span>disrespect</span></li>
+    <li><span>Justice</span> without love is <span>harshness</span></li>
+    <li><span>Truth</span> without love is <span>brutality</span></li>
+    <li><span>Education</span> without love is <span>pedantry</span></li>
+    <li><span>Wisdom</span> without love is <span>cunning</span></li>
+    <li><span>Kindness</span> without love is <span>hypocrisy</span></li>
+    <li><span>Order</span> without love is <span>pettiness</span></li>
+    <li><span>Knowledge</span> without love is <span>dogma</span></li>
+    <li><span>Power</span> without love is <span>violence</span></li>
+    <li><span>Honour</span> without love is <span>arrogance</span></li>
+    <li><span>Possession</span> without love is <span>stinginess</span></li>
+    <li><span>Faith</span> without love is <span>fanaticism</span></li>
+</ul>    
+<div id="byline">Lao Tzu</div>
+<script>
+    let output = document.querySelector('output');
+    let bits = Array.from(document.querySelectorAll('li span')).map(span => span.textContent);
+    let all = bits.length / 2;
+    let topics = bits.filter((_, index) => index % 2 === 0);
+    let meanings = bits.filter((_, index) => index % 2 === 1);  
+    meanings = meanings.map((m,i) => ({term:m, oldindex:i}));
+    meanings.sort(() => Math.random() - 0.5);
+    let lookup = {};
+    meanings.forEach((m,i) => lookup[m.oldindex] = i);
+    document.querySelector('#word div').innerHTML = topics.map(w => `<span>${w}</span>`).join('');
+    document.querySelector('#meaning div').innerHTML = meanings.map(w => `<span>${w.term}</span>`).join('');
+    const update = _ => {
+        let randomIndex = Math.floor(Math.random() * (all / 2));
+        document.querySelector('#word').style.setProperty('--wordindex', randomIndex);
+        document.querySelector('#meaning').style.setProperty('--meaningindex', lookup[randomIndex]);
+        setTimeout(update, 3000);
+    }
+    update();
+</script>
+</body>
+</html>

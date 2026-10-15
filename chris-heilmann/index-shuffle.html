@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Love - mover</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        ul {
+            font-size: 4vmin;
+        }
+        #byline {
+            position: fixed;
+            bottom: 1em;
+            font-size: 2vmin;
+        }
+        ul li {display: none}
+        ul li.current {display: block}
+        li {
+            display: flex;
+            gap: .5em;
+        }
+        li span {
+            flex: 1;
+        }
+        li span:first-of-type {
+            text-align: right;
+            color: green;
+        }
+        li span:last-of-type {
+            color: firebrick;
+        }
+    </style>
+
+</head>
+<body>
+<ul>
+    <li><span>Duty</span> without love is <span>irritation</span></li>
+    <li><span>Responsibility</span> without love is <span>disrespect</span></li>
+    <li><span>Justice</span> without love is <span>harshness</span></li>
+    <li><span>Truth</span> without love is <span>brutality</span></li>
+    <li><span>Education</span> without love is <span>pedantry</span></li>
+    <li><span>Wisdom</span> without love is <span>cunning</span></li>
+    <li><span>Kindness</span> without love is <span>hypocrisy</span></li>
+    <li><span>Order</span> without love is <span>pettiness</span></li>
+    <li><span>Knowledge</span> without love is <span>dogma</span></li>
+    <li><span>Power</span> without love is <span>violence</span></li>
+    <li><span>Honour</span> without love is <span>arrogance</span></li>
+    <li><span>Possession</span> without love is <span>stinginess</span></li>
+    <li><span>Faith</span> without love is <span>fanaticism</span></li>
+</ul>    
+<div id="byline">Lao Tzu</div>
+<script>
+    let output = document.querySelector('output');
+    let bits = Array.from(document.querySelectorAll('li span')).map(span => span.textContent);
+    let all = bits.length / 2;
+    let lis = document.querySelectorAll('li')
+    let current = '';
+    let i = 0;
+    let delay = 40;
+    const update = _ => {
+        if (current) {current.className = ''}
+        let randomIndex = Math.floor(Math.random() * all);
+        lis[randomIndex].className = 'current';
+        current = lis[randomIndex];
+        i++;
+        setTimeout(update, i < 20 ? 40 : 2000);
+        if (i >= 20) {i = 0}
+    }
+    update();
+</script>
+</body>
+</html>

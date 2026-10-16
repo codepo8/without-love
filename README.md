@@ -12,7 +12,7 @@ We've used this to learn about some new(ish) things in CSS we hadn't played with
 * We will invite to a special edition of [Coffee With Developers](https://www.wearedevelopers.com/coffee-with-developers) to talk about their submissions. This means that of course you can use AI to create your submission, but we also want you to be able to explain what you've done and why it works.
 * All winners get a free ticket to one of our events, either in [Berlin](https://www.wearedevelopers.com/world-congress), [Bengaluru](https://www.wearedevelopers.com/conference-india) or [San Jose](https://www.wearedevelopers.com/world-congress-north-america).  
 
-**You can submit your solution as a pull request here - simply create a folder with your name and code in the entries folder**.
+**You can [submit your solution as a pull request here](https://github.com/codepo8/without-love) - simply create a folder with your name and code in the entries folder**.
 
 * [Here are all the submissions so far](https://codepo8.github.io/without-love/entries/) - to start, Chris Heilmann added a [text mover](https://codepo8.github.io/without-love/entries/chris-heilmann/wo-mover.html) and a [simple shuffle effect](https://codepo8.github.io/without-love/entries/chris-heilmann/wo-shuffle.html).
 

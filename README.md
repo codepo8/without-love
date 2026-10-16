@@ -14,6 +14,6 @@ We've used this to learn about some new(ish) things in CSS we hadn't played with
 
 **You can submit your solution as a pull request here - simply create a folder with your name and code in the entries folder**.
 
-* [Here are all the submissions so far](https://codepo8.github.io/without-love/entries/index.html) - to start, Chris Heilmann added a [text mover](https://codepo8.github.io/without-love/entries/wo-mover.html) and a [simple shuffle effect](https://codepo8.github.io/without-love/entries/wo-shuffle.html).
+* [Here are all the submissions so far](https://codepo8.github.io/without-love/entries/) - to start, Chris Heilmann added a [text mover](https://codepo8.github.io/without-love/entries/chris-heilmann/wo-mover.html) and a [simple shuffle effect](https://codepo8.github.io/without-love/entries/chris-heilmann/wo-shuffle.html).
 
 Show the world what adding some love can do. 

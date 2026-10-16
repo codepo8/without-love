@@ -9,7 +9,7 @@ We've used this to learn about some new(ish) things in CSS we hadn't played with
 **There are no rules what you do with this and what tech you use**. 
 
 * We will pick three winners in the next few weeks 
-* We will invite to a special edition of [Coffee With Developers](https://www.wearedevelopers.com/coffee-with-developers) to talk about their submissions. This means that of course you can use AI to create your submission, but we also want you to be able to explain what you've done and why it works.
+* We will invite them to a special edition of [Coffee With Developers](https://www.wearedevelopers.com/coffee-with-developers) to talk about their submissions. This means that of course you can use AI to create your submission, but we also want you to be able to explain what you've done and why it works.
 * All winners get a free ticket to one of our events, either in [Berlin](https://www.wearedevelopers.com/world-congress), [Bengaluru](https://www.wearedevelopers.com/conference-india) or [San Jose](https://www.wearedevelopers.com/world-congress-north-america).  
 
 **You can [submit your solution as a pull request here](https://github.com/codepo8/without-love) - simply create a folder with your name and code in the entries folder**.

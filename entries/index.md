@@ -7,6 +7,6 @@
     * [Without love - flame](https://codepo8.github.io/without-love/entries/Claude/without-love.html)
 * ChatGPT
     * [Without love - light experience](https://codepo8.github.io/without-love/entries/Claude/without-love-experience.html)
-* Copilots
+* Copilot
     * [Without love - only in head](https://codepo8.github.io/without-love/entries/Copilot/without-love.html)
     * [Without love - full doc](https://codepo8.github.io/without-love/entries/Copilot/without-love-interactive.html)

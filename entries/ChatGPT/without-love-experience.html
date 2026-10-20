@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10131b">
+<title>Without Love — a small meditation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+:root{color-scheme:dark;--bg:#10131b;--ink:#e9e3d7;--muted:#858997;--ember:#ffbd7a;--cold:#9ba0b0;--line:rgba(233,227,215,.14)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--ink)}
+body{font-family:Manrope,system-ui,sans-serif;overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.grain{position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}
+.shell{position:relative;z-index:2;min-height:100%;height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(22px,4vh,44px) clamp(20px,5vw,76px) clamp(20px,3vh,32px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.eyebrow,.counter,.controls button,.instruction{font-family:"DM Mono",monospace;text-transform:uppercase;letter-spacing:.14em;font-size:10px}
+.eyebrow{color:var(--muted)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:7px;height:7px;border-radius:50%;background:var(--ember);box-shadow:0 0 18px #ffbd7a}
+.controls{display:flex;gap:8px}
+button{font:inherit;color:var(--ink);cursor:pointer}
+.controls button{border:1px solid var(--line);background:rgba(255,255,255,.025);border-radius:99px;padding:10px 14px;transition:background .25s,border-color .25s}
+.controls button:hover,.controls button:focus-visible{background:rgba(255,189,122,.1);border-color:rgba(255,189,122,.5);outline:none}
+main{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:0;padding:18px 0}
+.intro{text-align:center;margin-bottom:clamp(22px,4vh,44px);pointer-events:none}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:clamp(35px,6.2vw,76px);letter-spacing:-.045em;line-height:1.02;margin:0 0 12px}
+h1 em{font-weight:400;color:var(--ember)}
+.subtitle{color:var(--muted);font-size:clamp(12px,1.4vw,15px);letter-spacing:.025em;margin:0}
+#field{width:min(1050px,100%);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1.8vw,22px);align-items:stretch}
+.pair{position:relative;min-height:clamp(75px,10vh,105px);border:1px solid transparent;border-radius:4px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;cursor:pointer;background:transparent;transition:background .7s,border-color .7s,transform .5s;isolation:isolate}
+.pair:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(255,189,122,.10),transparent 72%);opacity:var(--lit,0);z-index:-1;transition:opacity .7s}
+.pair:hover,.pair:focus-visible{border-color:rgba(255,189,122,.4);outline:none;transform:translateY(-2px)}
+.pair .virtue,.pair .shadow{font-family:"Playfair Display",Georgia,serif;text-align:center;transition:opacity .8s,filter .8s,color .8s,transform .8s;white-space:normal;overflow-wrap:anywhere}
+.virtue{font-size:clamp(17px,2.15vw,27px);line-height:1.05;color:var(--ember);opacity:var(--lit,0);filter:blur(calc((1 - var(--lit,0))*6px));transform:translateY(calc((1 - var(--lit,0))*5px))}
+.shadow{font-size:clamp(14px,1.7vw,20px);line-height:1.1;color:var(--cold);opacity:calc(.9 - var(--lit,0)*.82);filter:blur(calc(var(--lit,0)*5px));font-style:italic}
+.pair .arrow{height:1px;width:18px;background:currentColor;opacity:.25;position:relative}
+.pair .arrow:after{content:"";position:absolute;right:0;top:-2px;width:4px;height:4px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:rotate(45deg)}
+footer{display:grid;grid-template-columns:1fr minmax(200px,500px) 1fr;align-items:end;gap:20px}
+.instruction{color:var(--muted);line-height:1.7}
+.caption{text-align:center;min-height:58px;transition:opacity .3s,filter .3s}
+.caption .sentence{font-family:"Playfair Display",Georgia,serif;font-size:clamp(18px,2.6vw,28px);line-height:1.25}
+.caption .sentence .warm{color:var(--ember);font-style:italic}
+.caption .byline{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:9px}
+.counter{text-align:right;color:var(--muted);line-height:1.8}
+.counter strong{color:var(--ink);font-weight:400}
+#reset{white-space:nowrap}
+@media(max-width:720px){.shell{padding:20px 16px 18px}header{align-items:flex-start}.eyebrow{max-width:130px;line-height:1.7}.controls button{padding:9px 10px;font-size:9px}main{justify-content:center}.intro{margin-bottom:22px}#field{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.pair{min-height:75px;padding:9px 4px}.virtue{font-size:clamp(16px,4.4vw,22px)}.shadow{font-size:clamp(13px,3.6vw,17px)}footer{grid-template-columns:1fr 1fr;align-items:end;gap:12px}.caption{grid-column:1/-1;grid-row:1;margin-bottom:10px}.instruction{font-size:9px}.counter{font-size:9px}}
+@media(max-height:650px) and (min-width:721px){.shell{padding-top:16px;padding-bottom:14px}.intro{margin-bottom:16px}h1{font-size:clamp(30px,5vh,54px)}.pair{min-height:64px;padding:8px}.caption .sentence{font-size:21px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="sky" aria-hidden="true"></canvas><div class="grain"></div>
+<div class="shell">
+<header>
+  <div class="brand"><span class="brand-mark"></span><div class="eyebrow">A small meditation in attention</div></div>
+  <div class="controls"><button id="all" type="button" aria-pressed="false">Hold the light</button><button id="reset" type="button">Begin again ↺</button></div>
+</header>
+<main>
+  <div class="intro"><h1>Without <em>Love</em>…</h1><p class="subtitle">Some things change when the light leaves them.</p></div>
+  <section id="field" aria-label="Virtues and what they become without love"></section>
+</main>
+<footer>
+  <div class="instruction">MOVE TO REVEAL<br>SELECT A PAIR TO DWELL</div>
+  <div class="caption" aria-live="polite"><div class="sentence" id="sentence">Let the light find a word.</div><div class="byline">Attributed to Lao Tzu</div></div>
+  <div class="counter"><strong id="count">00 / 13</strong><br>WORDS IN THE LIGHT</div>
+</footer>
+</div>
+<script>
+(() => {
+const DATA=[
+["Duty","irritation"],["Responsibility","disrespect"],["Justice","harshness"],
+["Truth","brutality"],["Education","pedantry"],["Wisdom","cunning"],
+["Kindness","hypocrisy"],["Order","pettiness"],["Knowledge","dogma"],
+["Power","violence"],["Honour","arrogance"],["Possession","stinginess"],
+["Faith","fanaticism"]
+];
+const field=document.querySelector("#field"), sentence=document.querySelector("#sentence"), count=document.querySelector("#count");
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const pairs=DATA.map(([virtue,shadow],i)=>{
+ const b=document.createElement("button");b.type="button";b.className="pair";b.style.setProperty("--lit",0);
+ b.setAttribute("aria-label",`${virtue} without love becomes ${shadow}`);
+ b.innerHTML=`<span class="virtue">${virtue}</span><span class="arrow" aria-hidden="true"></span><span class="shadow">${shadow}</span>`;
+ b.addEventListener("pointerenter",()=>{if(!pinned)bumpTarget(i)});
+ b.addEventListener("focus",()=>{if(!pinned)bumpTarget(i)});
+ b.addEventListener("click",()=>{pinned=pinned===i?null:i;if(pinned===null){target.x=innerWidth/2;target.y=innerHeight*.48}else{const r=b.getBoundingClientRect();target.x=r.left+r.width/2;target.y=r.top+r.height/2}updateCaption(i);});
+ field.appendChild(b);return {virtue,shadow,el:b,f:0,x:0,y:0,seed:Math.random()*7};
+});
+let W=innerWidth,H=innerHeight,dpr=1,pinned=null,holding=false,all=false,lastMove=0,current=-1;
+const canvas=document.querySelector("#sky"),ctx=canvas.getContext("2d");
+const target={x:W/2,y:H*.45},light={x:target.x,y:target.y};
+const motes=Array.from({length:reduced?28:100},()=>({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0,r:.4+Math.random()*1.5,p:Math.random()*7,h:0}));
+const sparks=[];
+function resize(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);position()}
+function position(){pairs.forEach(p=>{const r=p.el.getBoundingClientRect();p.x=r.left+r.width/2;p.y=r.top+r.height/2})}
+function bumpTarget(i){const p=pairs[i];target.x=p.x;target.y=p.y;updateCaption(i)}
+function updateCaption(i){if(current===i)return;current=i;sentence.style.opacity=0;sentence.style.filter="blur(4px)";setTimeout(()=>{sentence.innerHTML=`<span>${pairs[i].virtue}</span> without <span class="warm">love</span> becomes <span>${pairs[i].shadow}</span>`;sentence.style.opacity=1;sentence.style.filter="blur(0)"},180);count.textContent=`${String(i+1).padStart(2,"0")} / 13`}
+function pointer(e){if(pinned!==null)return;target.x=e.clientX;target.y=e.clientY;lastMove=performance.now();let nearest=0,dist=Infinity;pairs.forEach((p,i)=>{let d=Math.hypot(p.x-target.x,p.y-target.y);if(d<dist){dist=d;nearest=i}});updateCaption(nearest)}
+addEventListener("pointermove",pointer);addEventListener("resize",()=>{resize();setTimeout(position,60)});
+document.fonts?.ready.then(()=>{resize();position()});resize();setTimeout(position,100);
+const allBtn=document.querySelector("#all");
+allBtn.addEventListener("pointerdown",e=>{e.preventDefault();holding=true;all=true;allBtn.setAttribute("aria-pressed","true");allBtn.textContent="All in the light";});
+function release(){holding=false;all=false;allBtn.setAttribute("aria-pressed","false");allBtn.textContent="Hold the light"}
+addEventListener("pointerup",release);addEventListener("pointercancel",release);addEventListener("blur",release);
+allBtn.addEventListener("click",()=>{if(!holding){all=!all;allBtn.setAttribute("aria-pressed",String(all));allBtn.textContent=all?"Let it glow":"Hold the light";}});
+document.querySelector("#reset").addEventListener("click",()=>{pinned=null;all=false;release();target.x=W/2;target.y=H*.46;pairs.forEach(p=>p.f=0);sentence.innerHTML="Let the light find a word.";count.textContent="00 / 13";current=-1});
+addEventListener("keydown",e=>{if(e.code==="Space"&&e.target.tagName!=="BUTTON"){e.preventDefault();holding=true;all=true}if(e.key==="Escape"){pinned=null;all=false;release()}});
+addEventListener("keyup",e=>{if(e.code==="Space")release()});
+const smooth=(a,b,x)=>{let t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t)};
+function frame(t){
+ if(!reduced&&performance.now()-lastMove>5000&&pinned===null&&!all){target.x=W*.5+Math.sin(t*.00019)*W*.32;target.y=H*.45+Math.cos(t*.00023)*H*.23}
+ light.x+=(target.x-light.x)*.075;light.y+=(target.y-light.y)*.075;
+ const radius=Math.max(100,Math.min(W,H)*(.22+(holding||all?.7:0)));
+ let lit=0;
+ pairs.forEach(p=>{let d=Math.hypot(p.x-light.x,p.y-light.y);let f=all?1:1-smooth(radius*.22,radius,d);p.f+=(f-p.f)*.11;p.el.style.setProperty("--lit",p.f.toFixed(3));if(p.f>.55)lit++});
+ count.textContent=current<0?`00 / 13`:`${String(current+1).padStart(2,"0")} / 13`;
+ ctx.clearRect(0,0,W,H);
+ let g=ctx.createRadialGradient(light.x,light.y,0,light.x,light.y,radius*1.25);g.addColorStop(0,`rgba(255,172,99,${all?.18:.17})`);g.addColorStop(.38,"rgba(255,172,99,.055)");g.addColorStop(1,"rgba(255,172,99,0)");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ for(const m of motes){let dx=light.x-m.x,dy=light.y-m.y,d=Math.hypot(dx,dy)||1;let heat=1-smooth(radius*.1,radius*.9,d);m.h+=(heat-m.h)*.04;if(!reduced){m.vx+=(dx/d)*.003*m.h+(Math.random()-.5)*.012;m.vy+=(dy/d)*.003*m.h-.001*m.h+(Math.random()-.5)*.012;m.vx*=.986;m.vy*=.986;m.x+=m.vx;m.y+=m.vy}if(m.x<0)m.x=W;if(m.x>W)m.x=0;if(m.y<0)m.y=H;if(m.y>H)m.y=0;ctx.fillStyle=`rgba(${m.h>.08?"255,190,130":"148,154,174"},${(.15+m.h*.65)*(.65+.35*Math.sin(t*.002+m.p))})`;ctx.beginPath();ctx.arc(m.x,m.y,m.r*(1+m.h),0,Math.PI*2);ctx.fill()}
+ if(!reduced&&Math.random()<.38+(holding?.5:0))sparks.push({x:light.x+(Math.random()-.5)*12,y:light.y,vx:(Math.random()-.5)*.5,vy:-Math.random()*.8-.2,l:1,r:.5+Math.random()*1.4});
+ for(let i=sparks.length-1;i>=0;i--){let s=sparks[i];s.x+=s.vx;s.y+=s.vy;s.l-=.014;if(s.l<=0){sparks.splice(i,1);continue}ctx.fillStyle=`rgba(255,189,122,${s.l*.7})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r*s.l,0,Math.PI*2);ctx.fill()}
+ requestAnimationFrame(frame)
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

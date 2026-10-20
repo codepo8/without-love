@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Love…</title>
+    <style>
+        :root {
+            --bg-1: #120b1f;
+            --bg-2: #1f1136;
+            --bg-3: #0d1827;
+            --text: #f4e9ff;
+            --muted: rgba(244, 233, 255, 0.68);
+            --primary: #f5b8d3;
+            --secondary: #9ae7ff;
+            --accent: #d4ff9d;
+            --panel: rgba(17, 12, 26, 0.5);
+            --glass: rgba(255, 255, 255, 0.08);
+            --shadow: rgba(17, 12, 26, 0.48);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(245, 184, 211, 0.24), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(154, 231, 255, 0.2), transparent 35%),
+                linear-gradient(135deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            padding: 4rem 1.5rem 2rem;
+        }
+
+        .bg-orb {
+            position: fixed;
+            width: 36rem;
+            height: 36rem;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            pointer-events: none;
+            animation: orbFloat 18s ease-in-out infinite alternate;
+        }
+
+        .bg-orb.one {
+            background: rgba(245, 184, 211, 0.8);
+            top: -8rem; left: -5rem;
+        }
+
+        .bg-orb.two {
+            background: rgba(154, 231, 255, 0.75);
+            bottom: -10rem; right: -8rem;
+            animation-delay: 1s;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            100% { transform: translate3d(2rem, -1rem, 0) scale(1.12); }
+        }
+
+        .scene {
+            width: min(1200px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .masthead {
+            text-align: center;
+            margin-bottom: 2.25rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: clamp(2.2rem, 5vw, 5rem);
+            letter-spacing: -0.06em;
+            font-weight: 700;
+            line-height: 0.95;
+            background: linear-gradient(135deg, #fff 0%, #f5c8de 25%, #9ae7ff 55%, #d4ff9d 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 18px rgba(255,255,255,0.18);
+            animation: glowPulse 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { filter: drop-shadow(0 0 12px rgba(245,184,211,0.25)); }
+            100% { filter: drop-shadow(0 0 24px rgba(154,231,255,0.35)); }
+        }
+
+        .quote-grid {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .quote {
+            position: relative;
+            min-height: 122px;
+            padding: 1.1rem 1.2rem 1rem;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 10px 25px var(--shadow);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            transform: translateY(20px) scale(0.96);
+            opacity: 0;
+            animation: cardIn 0.8s cubic-bezier(.2,.8,.2,1) forwards;
+            animation-delay: var(--delay, 0s);
+            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+            cursor: pointer;
+        }
+
+        .quote::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.09) 50%, transparent 100%);
+            transform: translateX(-110%);
+            animation: sheen 6s ease-in-out infinite;
+            animation-delay: calc(var(--delay, 0s) + 0.4s);
+        }
+
+        @keyframes cardIn {
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes sheen {
+            0%, 20% { transform: translateX(-110%); }
+            50%, 80% { transform: translateX(110%); }
+            100% { transform: translateX(110%); }
+        }
+
+        .quote:hover,
+        .quote:focus-visible,
+        .quote.active {
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(154, 231, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(18, 11, 31, 0.45), 0 0 18px rgba(154, 231, 255, 0.16);
+        }
+
+        .quote .pair {
+            display: inline-block;
+            position: relative;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            padding: 0.08em 0.18em;
+            border-radius: 0.3em;
+            margin-right: 0.15em;
+            color: var(--text);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .quote:nth-child(3n) .pair:first-child { background: rgba(245,184,211,0.15); }
+        .quote:nth-child(3n + 1) .pair:nth-child(2) { background: rgba(154,231,255,0.12); }
+        .quote:nth-child(3n + 2) .pair:first-child { background: rgba(212,255,157,0.12); }
+
+        .quote:hover .pair,
+        .quote.active .pair {
+            transform: translateY(-2px);
+        }
+
+        .quote .label {
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            display: inline-block;
+        }
+
+        .quote p {
+            margin: 0;
+            font-size: clamp(1.08rem, 2vw, 1.5rem);
+            line-height: 1.4;
+            color: rgba(255,255,255,0.94);
+        }
+
+        .quote .pair::after {
+            content: "";
+            position: absolute;
+            left: 0.2em; right: 0.2em; bottom: -0.08em;
+            height: 0.15em;
+            background: linear-gradient(90deg, rgba(245,184,211,0.6), rgba(154,231,255,0.7), rgba(212,255,157,0.7));
+            border-radius: 999px;
+            opacity: 0.7;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-style: italic;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.72rem;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding-top: 3rem;
+            }
+            .quote {
+                min-height: 112px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orb one"></div>
+    <div class="bg-orb two"></div>
+
+    <main class="scene">
+        <div class="masthead">A teaching of the Tao</div>
+        <h1 class="title">Without Love</h1>
+
+        <ul class="quote-grid">
+            <li class="quote"><span class="label">1</span><p><span class="pair">Duty</span> without love is <span class="pair">irritation</span></p></li>
+            <li class="quote"><span class="label">2</span><p><span class="pair">Responsibility</span> without love is <span class="pair">disrespect</span></p></li>
+            <li class="quote"><span class="label">3</span><p><span class="pair">Justice</span> without love is <span class="pair">harshness</span></p></li>
+            <li class="quote"><span class="label">4</span><p><span class="pair">Truth</span> without love is <span class="pair">brutality</span></p></li>
+            <li class="quote"><span class="label">5</span><p><span class="pair">Education</span> without love is <span class="pair">pedantry</span></p></li>
+            <li class="quote"><span class="label">6</span><p><span class="pair">Wisdom</span> without love is <span class="pair">cunning</span></p></li>
+            <li class="quote"><span class="label">7</span><p><span class="pair">Kindness</span> without love is <span class="pair">hypocrisy</span></p></li>
+            <li class="quote"><span class="label">8</span><p><span class="pair">Order</span> without love is <span class="pair">pettiness</span></p></li>
+            <li class="quote"><span class="label">9</span><p><span class="pair">Knowledge</span> without love is <span class="pair">dogma</span></p></li>
+            <li class="quote"><span class="label">10</span><p><span class="pair">Power</span> without love is <span class="pair">violence</span></p></li>
+            <li class="quote"><span class="label">11</span><p><span class="pair">Honour</span> without love is <span class="pair">arrogance</span></p></li>
+            <li class="quote"><span class="label">12</span><p><span class="pair">Possession</span> without love is <span class="pair">stinginess</span></p></li>
+            <li class="quote"><span class="label">13</span><p><span class="pair">Faith</span> without love is <span class="pair">fanaticism</span></p></li>
+        </ul>
+
+        <footer id="byline">Lao Tzu</footer>
+    </main>
+
+    <script>
+        const items = document.querySelectorAll('.quote');
+
+        items.forEach((item, index) => {
+            item.style.setProperty('--delay', `${index * 0.08 + 0.1}s`);
+
+            item.addEventListener('pointerenter', () => {
+                items.forEach((other) => other.classList.remove('active'));
+                item.classList.add('active');
+            });
+
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+
+        document.addEventListener('pointerleave', () => {
+            items.forEach((item) => item.classList.remove('active'));
+        });
+    </script>
+</body>
+</html>

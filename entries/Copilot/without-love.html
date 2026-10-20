@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Love…</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle at top, #101c2d, #090d16 50%, #05080d);
+            color: #edf6ff;
+        }
+        .scene {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem 4rem;
+        }
+        h1 {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            margin-bottom: 0.75rem;
+            background: linear-gradient(120deg, #f6d7b5, #f9a2b9, #9ed9ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(237,245,255,0.7);
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
+        }
+        ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            position: relative;
+            min-height: 170px;
+            padding: 1.4rem 1.25rem;
+            border: 1px solid rgba(170,190,255,0.22);
+            border-radius: 16px;
+            background: rgba(11,17,25,0.72);
+            box-shadow: inset 0 1px rgba(255,255,255,0.08), 0 16px 28px rgba(0,0,0,.12);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(18px);
+            animation: rise 0.9s ease forwards;
+        }
+        li:nth-child(odd) { animation-delay: calc(var(--i) * 0.08s); }
+        li:nth-child(even) { animation-delay: calc(var(--i) * 0.1s + 0.06s); }
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        li::before {
+            content: "";
+            position: absolute;
+            inset: auto -10% -20% 15%;
+            height: 120%;
+            background: linear-gradient(120deg, rgba(144,201,255,0.15), rgba(255,170,200,0.08));
+            transform: rotate(-12deg);
+            filter: blur(18px);
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+        li:hover::before { opacity: 1; }
+        li:hover {
+            transform: translateY(-2px);
+            box-shadow: inset 0 1px rgba(255,255,255,0.12), 0 18px 35px rgba(0,0,0,.22);
+        }
+        .entry {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            font-size: clamp(1.1rem, 2vw, 1.7rem);
+            line-height: 1.35;
+        }
+        .entry .term {
+            font-weight: 700;
+            color: #eaf7ff;
+        }
+        .entry .result {
+            font-weight: 700;
+            background: linear-gradient(120deg, #ffd2a6, #ffb7cf, #c5d3ff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .entry .tag {
+            color: rgba(237,245,255,0.75);
+            font-size: 0.74rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            display: block;
+            margin: 0.4rem 0 0.2rem;
+        }
+        .byline {
+            text-align: right;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(237,245,255,0.72);
+        }
+        @media (max-width: 620px) {
+            .entry { display: block; }
+            .entry .tag { display: inline-block; margin: 0.2rem 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li><span>Duty</span> without love is <span>irritation</span></li>
+    <li><span>Responsibility</span> without love is <span>disrespect</span></li>
+    <li><span>Justice</span> without love is <span>harshness</span></li>
+    <li><span>Truth</span> without love is <span>brutality</span></li>
+    <li><span>Education</span> without love is <span>pedantry</span></li>
+    <li><span>Wisdom</span> without love is <span>cunning</span></li>
+    <li><span>Kindness</span> without love is <span>hypocrisy</span></li>
+    <li><span>Order</span> without love is <span>pettiness</span></li>
+    <li><span>Knowledge</span> without love is <span>dogma</span></li>
+    <li><span>Power</span> without love is <span>violence</span></li>
+    <li><span>Honour</span> without love is <span>arrogance</span></li>
+    <li><span>Possession</span> without love is <span>stinginess</span></li>
+    <li><span>Faith</span> without love is <span>fanaticism</span></li>
+</ul>    
+<footer id="byline">Lao Tzu</footer>
+</body>
+</html>

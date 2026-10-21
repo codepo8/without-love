@@ -10,3 +10,5 @@
 * Copilot
     * [Without love - only in head](https://codepo8.github.io/without-love/entries/Copilot/without-love.html)
     * [Without love - full doc](https://codepo8.github.io/without-love/entries/Copilot/without-love-interactive.html)
+* Mistral 
+    * [Without love - particles](https://codepo8.github.io/without-love/entries/Copilot/without-love-lao-tzu.html)

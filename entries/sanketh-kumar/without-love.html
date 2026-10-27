@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Without Love — soften</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&display=swap" rel="stylesheet">
+<style>
+  /* One number runs the whole page. Registering it as a <number> is what
+     lets it animate: unregistered custom properties are not interpolable. */
+  @property --love {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+
+  :root {
+    --ease: cubic-bezier(.22, .61, .36, 1);
+    color-scheme: dark light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    /* Every colour is a blend between the cold end and the warm end. */
+    --bg:    color-mix(in oklab, #fff4e4 calc(var(--love) * 100%), #0b1015);
+    --ink:   color-mix(in oklab, #241611 calc(var(--love) * 100%), #93a1ad);
+    --muted: color-mix(in oklab, #7a5843 calc(var(--love) * 100%), #66727f);
+    --harsh: color-mix(in oklab, #a35a12 calc(var(--love) * 100%), #ff7d7d);
+    --rule:  color-mix(in oklab, #e6cdb4 calc(var(--love) * 100%), #2b3540);
+    --glow:  color-mix(in oklab, #ffb35c calc(var(--love) * 100%), #0b1015);
+
+    min-height: 100svh;
+    margin: 0;
+    padding: clamp(1.5rem, 5vw, 4rem) clamp(1.25rem, 6vw, 5rem);
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-optical-sizing: auto;
+    transition: --love 1.15s var(--ease);
+  }
+
+  /* The switch. A real checkbox, so it works with a keyboard and a screen reader. */
+  body:has(#love:checked) { --love: 1; }
+
+  /* Warmth that rises from the top of the page as love arrives. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 50% at 50% 0%, var(--glow), transparent 70%);
+    opacity: calc(var(--love) * .28);
+    transition: opacity 1.15s var(--ease);
+  }
+
+  .page {
+    width: min(100%, 62ch);
+    position: relative;
+  }
+
+  .eyebrow {
+    margin: 0 0 clamp(1rem, 3vw, 2rem);
+    font-size: clamp(.72rem, 1.4vw, .82rem);
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 1.15s var(--ease);
+  }
+
+  h1 {
+    margin: 0 0 clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(2rem, 6.2vw, 3.9rem);
+    line-height: .98;
+    letter-spacing: calc(-.02em + var(--love) * .03em);
+    /* Fraunces' SOFT and WONK axes do the emotional work here:
+       hard and wonky at 0, soft and even at 1. */
+    font-variation-settings:
+      "SOFT" calc(var(--love) * 100),
+      "WONK" calc(1 - var(--love)),
+      "wght" calc(640 - var(--love) * 180);
+    transition: letter-spacing 1.15s var(--ease);
+  }
+
+  .heart {
+    display: inline-block;
+    width: .62em;
+    height: .62em;
+    margin: 0 .12em;
+    vertical-align: baseline;
+    translate: 0 .02em;
+    scale: calc(.82 + var(--love) * .18);
+    transition: scale 1.15s var(--ease);
+  }
+
+  .heart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .heart .outline { stroke: var(--harsh); fill: none; stroke-width: 1.6; }
+  .heart .fill { fill: var(--harsh); opacity: calc(var(--love) * .9); }
+
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: clamp(.45rem, 1.5vw, .85rem);
+  }
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .1rem calc(.35rem + var(--love) * 1rem);
+    padding-block: clamp(.2rem, .8vw, .45rem);
+    border-top: 1px solid var(--rule);
+    font-size: clamp(1rem, 2.4vw, 1.42rem);
+    /* Each line lifts and brightens as it receives the love, in reading order. */
+    opacity: calc(.66 + var(--love) * .34);
+    translate: 0 calc((1 - var(--love)) * 4px);
+    transition:
+      opacity 1s var(--ease),
+      translate 1s var(--ease),
+      border-color 1.15s var(--ease);
+  }
+
+  li:last-child { border-bottom: 1px solid var(--rule); }
+
+  /* sibling-index() gives every line its own delay without a class or an
+     inline style. Browsers without it simply drop this rule. */
+  @supports (transition-delay: calc(sibling-index() * 1ms)) {
+    li { transition-delay: calc(sibling-index() * 34ms); }
+  }
+
+  .virtue {
+    font-variation-settings: "SOFT" 20, "wght" 620, "opsz" 40;
+    transition: color 1.15s var(--ease);
+  }
+
+  .link {
+    font-size: .78em;
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "wght" 340, "opsz" 24;
+    color: var(--muted);
+    transition: color 1.15s var(--ease);
+  }
+
+  .harsh {
+    position: relative;
+    margin-left: auto;
+    font-variation-settings:
+      "SOFT" calc(var(--love) * 100),
+      "WONK" calc(1 - var(--love)),
+      "wght" calc(820 - var(--love) * 470),
+      "opsz" 40;
+    color: var(--harsh);
+    /* The word is set at a hard angle until the love straightens it. */
+    transform: skewX(calc((1 - var(--love)) * -9deg));
+    transition: transform 1.15s var(--ease), color 1.15s var(--ease);
+  }
+
+  /* A struck-through word while it is unloved; the stroke retracts to nothing. */
+  .harsh::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 56%;
+    height: .07em;
+    background: currentColor;
+    transform: scaleX(calc(1 - var(--love)));
+    transform-origin: left center;
+    opacity: .75;
+  }
+
+  .controls {
+    margin-top: clamp(2rem, 5vw, 3.25rem);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .switch {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .dial {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .55rem 1.15rem .55rem .8rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-size: clamp(.82rem, 1.8vw, .95rem);
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--ink);
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 1.15s var(--ease), color 1.15s var(--ease);
+  }
+
+  .dial:hover { border-color: var(--harsh); }
+
+  .switch:focus-visible + .dial {
+    outline: 2px solid var(--harsh);
+    outline-offset: 3px;
+  }
+
+  .dial .pip {
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+    background: var(--harsh);
+    box-shadow: 0 0 0 .22rem color-mix(in oklab, var(--harsh), transparent 78%);
+    transition: transform 1.15s var(--ease), background 1.15s var(--ease);
+    transform: scale(calc(.6 + var(--love) * .4));
+  }
+
+  /* Both labels sit in the same grid cell, so the pill keeps one size. */
+  .dial .states { display: grid; }
+  .dial .states > span { grid-area: 1 / 1; transition: opacity .6s var(--ease); }
+  .dial .state-on { opacity: 0; }
+  .switch:checked + .dial .state-off { opacity: 0; }
+  .switch:checked + .dial .state-on { opacity: 1; }
+
+  .hint {
+    margin: 0;
+    font-size: .8rem;
+    font-style: italic;
+    color: var(--muted);
+    transition: color 1.15s var(--ease);
+  }
+
+  footer {
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(.75rem, 1.6vw, .85rem);
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 1.15s var(--ease);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body, body::before, h1, .heart, li, .harsh, .harsh::after,
+    .virtue, .link, .dial, .dial .pip, .dial .states > span, .hint, footer {
+      transition: none;
+    }
+    li { translate: none; }
+  }
+
+  @media (max-width: 34rem) {
+    .harsh { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <p class="eyebrow">Lao Tzu · thirteen ways to lose something</p>
+
+    <h1>
+      Without<span class="heart" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="outline" d="M12 20.5S3.5 15.2 3.5 9.4A4.9 4.9 0 0 1 12 6.2a4.9 4.9 0 0 1 8.5 3.2c0 5.8-8.5 11.1-8.5 11.1Z"/><path class="fill" d="M12 20.5S3.5 15.2 3.5 9.4A4.9 4.9 0 0 1 12 6.2a4.9 4.9 0 0 1 8.5 3.2c0 5.8-8.5 11.1-8.5 11.1Z"/></svg></span>love
+    </h1>
+
+    <ol>
+      <li><span class="virtue">Duty</span> <span class="link">without love is</span> <span class="harsh">irritation</span></li>
+      <li><span class="virtue">Responsibility</span> <span class="link">without love is</span> <span class="harsh">disrespect</span></li>
+      <li><span class="virtue">Justice</span> <span class="link">without love is</span> <span class="harsh">harshness</span></li>
+      <li><span class="virtue">Truth</span> <span class="link">without love is</span> <span class="harsh">brutality</span></li>
+      <li><span class="virtue">Education</span> <span class="link">without love is</span> <span class="harsh">pedantry</span></li>
+      <li><span class="virtue">Wisdom</span> <span class="link">without love is</span> <span class="harsh">cunning</span></li>
+      <li><span class="virtue">Kindness</span> <span class="link">without love is</span> <span class="harsh">hypocrisy</span></li>
+      <li><span class="virtue">Order</span> <span class="link">without love is</span> <span class="harsh">pettiness</span></li>
+      <li><span class="virtue">Knowledge</span> <span class="link">without love is</span> <span class="harsh">dogma</span></li>
+      <li><span class="virtue">Power</span> <span class="link">without love is</span> <span class="harsh">violence</span></li>
+      <li><span class="virtue">Honour</span> <span class="link">without love is</span> <span class="harsh">arrogance</span></li>
+      <li><span class="virtue">Possession</span> <span class="link">without love is</span> <span class="harsh">stinginess</span></li>
+      <li><span class="virtue">Faith</span> <span class="link">without love is</span> <span class="harsh">fanaticism</span></li>
+    </ol>
+
+    <div class="controls">
+      <input class="switch" type="checkbox" id="love">
+      <label class="dial" for="love">
+        <span class="pip" aria-hidden="true"></span>
+        <span class="states">
+          <span class="state-off">Add love</span>
+          <span class="state-on" aria-hidden="true">Love added</span>
+        </span>
+      </label>
+      <p class="hint">No JavaScript. One registered property does all of this.</p>
+    </div>
+
+    <footer>Lao Tzu</footer>
+  </main>
+</body>
+</html>

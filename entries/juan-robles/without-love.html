@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Love…</title>
+    <script src="q5.min.js" defer></script>
+</head>
+
+<body>
+    <ul style="display:none">
+        <li><span>Duty</span> without love is <span>irritation</span></li>
+        <li><span>Responsibility</span> without love is <span>disrespect</span></li>
+        <li><span>Justice</span> without love is <span>harshness</span></li>
+        <li><span>Truth</span> without love is <span>brutality</span></li>
+        <li><span>Education</span> without love is <span>pedantry</span></li>
+        <li><span>Wisdom</span> without love is <span>cunning</span></li>
+        <li><span>Kindness</span> without love is <span>hypocrisy</span></li>
+        <li><span>Order</span> without love is <span>pettiness</span></li>
+        <li><span>Knowledge</span> without love is <span>dogma</span></li>
+        <li><span>Power</span> without love is <span>violence</span></li>
+        <li><span>Honour</span> without love is <span>arrogance</span></li>
+        <li><span>Possession</span> without love is <span>stinginess</span></li>
+        <li><span>Faith</span> without love is <span>fanaticism</span></li>
+    </ul>
+    <footer style="display:none" id="byline">Lao Tzu</footer>
+
+    <script>
+
+        let texts = [
+            '无论做甚么，都要从心里做，像是给主做的，不是给人做的，因你们知道从主那里必得着基业为赏赐；你们所事奉的乃是主基',
+            '我若将所有的周济穷人，又舍己身叫人焚烧，却没有爱，仍然与我无益.',
+            '我喜爱良善（或译：怜恤），不喜爱祭祀；喜爱认识神，胜于燔祭',
+            '弟兄们，若有人偶然被过犯所胜，你们属灵的人就当用温柔的心把他挽回过来；又当自己小心，恐怕也被引诱',
+            '他们把难担的重担捆起来，搁在人的肩上，但自己一个指头也不肯动',
+            '你們要防備假先知。他們到你們這裡來，外面披著羊皮，裡面却是殘暴的狼',
+            '他的口如奶油光滑，他的心却怀着争战；他的话比油柔和，其实是拔出来的刀',
+            '你们这瞎眼领路的，蠓虫你们就滤出来，骆驼你们倒吞下去',
+            '论到祭偶像之物，我们晓得『我们都有知识』。但知识是叫人自高自大，唯有爱心能造就人',
+            '何况这尼尼微大城，其中不能分辨左手右手的有十二万多人，并有许多牲畜，我岂能不爱惜呢？',
+            '我是你们的主，你们的夫子，尚且洗你们的脚，你们也当彼此洗脚',
+            '唯有基督在我们还作罪人的时候为我们死， 神的爱就在此向我们显明了',
+            '你们若有彼此相爱的心，众人因此就认出你们是我的门徒了'
+        ];
+
+
+        let scrText = [];
+        let words = [];
+        let bgColor = 0;
+        let clickedW = null;
+
+        function setup() {
+
+            // Extracting each list element
+            let listElements = findEls('li');
+            
+            // Possible color list
+            let colors = [
+                'antiquewhite',
+                'lavender',
+                'thistle',
+                'mintcream',
+                'crimson',
+                'coral',
+                'gold',
+                'darkturquoise',
+                'seagreen',
+                'steelblue',
+                'darkslate_blue',
+                'gainsboro',
+                'charcoal'
+            ];
+
+            shuffle(colors, true);
+
+            createCanvas(windowWidth, windowHeight);
+            textAlign(CENTER, CENTER);
+            textSize(min(windowWidth, windowHeight) / 20);
+            rectMode(CENTER);
+
+            listElements.forEach((listElement, idx) => {
+
+                let c = colors.pop();
+
+                // Word pairs at random locations
+                words.push({
+                    id: idx,
+                    text: listElement.children[0].innerText,
+                    x: random() * windowWidth,
+                    y: random() * windowHeight,
+                    c,
+                    w: textWidth(listElement.children[0].innerText),
+                    h: textAscent() + textDescent(),
+                    vx: random([1, -1, .5, -.5]),
+                    vy: random([1, -1, .5, -.5]),
+                    active: true
+                });
+
+                words.push({
+                    id: idx,
+                    text: listElement.children[1].innerText,
+                    x: random() * windowWidth,
+                    y: random() * windowHeight,
+                    c,
+                    w: textWidth(listElement.children[1].innerText),
+                    h: textAscent() + textDescent(),
+                    vx: random([1, -1, .5, -.5]),
+                    vy: random([1, -1, .5, -.5]),
+                    active: true
+                });
+
+            });
+
+        }
+
+        function draw() {
+            background(bgColor);
+
+            textSize(min(windowWidth, windowHeight) / 40);
+            scrText.forEach((st, idx) => {
+
+                fill('gold');
+                text(st, windowWidth / 2, (textAscent() + textDescent()) * (idx + 1) * 1.5);
+            });
+
+            textSize(min(windowWidth, windowHeight) / 20);
+            words.forEach((w) => {
+
+                fill(w.c);
+                text(w.text, w.x, w.y);
+                stroke(w.c);
+                noFill();
+                rect(w.x, w.y, w.w, w.h);
+
+                // Test bound bounce
+                if (w.x >= windowWidth || w.x <= 0)
+                    w.vx *= -1;
+
+                if (w.y >= windowHeight || w.y <= 0)
+                    w.vy *= -1;
+                
+                // Update position
+                w.x += w.vx;
+                w.y += w.vy;
+            });
+        }
+
+        function mousePressed()
+        {
+            
+            let mouseP = [mouseX, mouseY];
+            words.forEach((w) => {
+
+                // The word got clicked?
+                if (
+                    mouseP[0] >= w.x - w.w / 2 && 
+                    mouseP[0] <= w.x + w.w / 2 &&
+                    mouseP[1] >= w.y - w.h / 2 && 
+                    mouseP[1] <= w.y + w.h / 2 
+                ) {
+                    
+                    if (clickedW === null) {
+                        
+                        clickedW = w;
+                    } else {
+                        
+                        // Is there a match?
+                        if (clickedW.id === w.id && clickedW.text !== w.text) {
+                            
+                            // Remove words
+                            clickedW.active = w.active = false;
+                            
+                            // Make bg clearer
+                            bgColor += floor(255 / 13);
+
+                            // Show text
+                            scrText.push(texts[w.id]);
+                        }
+
+                        clickedW = null;
+                    }
+                }
+
+            });
+
+            words = words.filter(w => w.active);
+        }
+
+        // For responsivenes
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+
+</body>
+
+</html>
